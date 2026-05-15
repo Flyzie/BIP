@@ -1,0 +1,73 @@
+[
+  {
+    "id": "1",
+    "sellerName": "Alice Smith",
+    "sellerUniversity": "Stanford University",
+    "title": "Math Tutoring for High Schoolers",
+    "description": "Personalized math tutoring sessions covering algebra, geometry, and calculus.",
+    "category": "tutoring",
+    "price": 35,
+    "imageUrl": "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=800&auto=format&fit=crop",
+    "mode": "both",
+    "location": {
+      "address": "450 Serra Mall",
+      "city": "Stanford"
+    },
+    "slots": [
+      {
+        "id": "s1",
+        "startTime": "2026-05-16T10:00:00Z",
+        "endTime": "2026-05-16T11:00:00Z",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.8,
+    "reviewCount": 12,
+    "totalCompleted": 24,
+    "createdAt": "2026-05-01T08:00:00Z",
+    "updatedAt": "2026-05-01T08:00:00Z"
+  },
+  {
+    "id": "2",
+    "sellerName": "Bob Jones",
+    "sellerUniversity": "MIT",
+    "title": "Professional Presentation Design",
+    "description": "High-quality PowerPoint and Pitch Deck design for startups and students.",
+    "category": "presentations",
+    "price": 50,
+    "imageUrl": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=800&auto=format&fit=crop",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "s2",
+        "startTime": "2026-05-17T14:00:00Z",
+        "endTime": "2026-05-17T15:00:00Z",
+        "isBooked": true
+      }
+    ],
+    "status": "active",
+    "rating": 5.0,
+    "reviewCount": 5,
+    "totalCompleted": 8,
+    "createdAt": "2026-05-05T10:00:00Z",
+    "updatedAt": "2026-05-05T10:00:00Z"
+  },
+  {
+    "id": "3",
+    "sellerName": "Charlie Brown",
+    "sellerUniversity": "UC Berkeley",
+    "title": "Logo & Graphics Design",
+    "description": "Custom logo design and social media graphics for your personal brand.",
+    "category": "graphics",
+    "price": 30,
+    "mode": "online",
+    "slots": [],
+    "status": "active",
+    "rating": 4.5,
+    "reviewCount": 20,
+    "totalCompleted": 45,
+    "createdAt": "2026-04-20T12:00:00Z",
+    "updatedAt": "2026-04-20T12:00:00Z"
+  }
+]
