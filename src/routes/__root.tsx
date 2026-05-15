@@ -28,6 +28,15 @@ export default function RootComponent() {
         >
           About
         </Link>
+        <Link
+          to="/createOffer"
+          search={{ editId: undefined }}
+          activeProps={{
+            className: "font-bold",
+          }}
+        >
+          Create-Offer
+        </Link>
       </div>
       <hr />
       <Outlet />
