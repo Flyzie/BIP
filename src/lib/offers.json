@@ -53,21 +53,299 @@
     "createdAt": "2026-05-05T10:00:00Z",
     "updatedAt": "2026-05-05T10:00:00Z"
   },
+
+
   {
-    "id": "3",
-    "sellerName": "Charlie Brown",
-    "sellerUniversity": "UC Berkeley",
-    "title": "Logo & Graphics Design",
-    "description": "Custom logo design and social media graphics for your personal brand.",
-    "category": "graphics",
-    "price": 30,
+    "id": "4",
+    "sellerName": "Jean Dupont",
+    "sellerUniversity": "Instituto Superior Politécnico Gaya",
+    "title": "Calculus - Derivatives Explained",
+    "description": "Learn how to compute derivatives of polynomial, trigonometric, exponential and logarithmic functions. Practice with step-by-step solutions.",
+    "category": "tutoring",
+    "price": 35,
+    "imageUrl": "/src/assets/offerList/1.png",
     "mode": "online",
-    "slots": [],
+    "slots": [
+      {
+        "id": "slot_001",
+        "startTime": "2025-05-20T10:00:00",
+        "endTime": "2025-05-20T11:30:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_002",
+        "startTime": "2025-05-21T14:00:00",
+        "endTime": "2025-05-21T15:30:00",
+        "isBooked": false
+      }
+    ],
     "status": "active",
-    "rating": 4.5,
-    "reviewCount": 20,
-    "totalCompleted": 45,
-    "createdAt": "2026-04-20T12:00:00Z",
-    "updatedAt": "2026-04-20T12:00:00Z"
+    "rating": 4.9,
+    "reviewCount": 34,
+    "totalCompleted": 42,
+    "createdAt": "2025-01-10T00:00:00.000Z",
+    "updatedAt": "2025-05-01T00:00:00.000Z"
+  },
+  {
+    "id": "off_math_002",
+    "sellerName": "Maria Silva",
+    "sellerUniversity": "Universidade do Porto",
+    "title": "Integral Calculus - From Basics to Advanced",
+    "description": "Master definite and indefinite integrals. Learn integration by substitution, parts, and partial fractions. Perfect for exam preparation.",
+    "category": "tutoring",
+    "price": 40,
+    "imageUrl": "/src/assets/offerList/2.png",
+    "mode": "both",
+    "location": {
+      "address": "Faculty of Mathematics, room 12",
+      "city": "Porto"
+    },
+    "slots": [
+      {
+        "id": "slot_003",
+        "startTime": "2025-05-22T09:00:00",
+        "endTime": "2025-05-22T10:30:00",
+        "isBooked": true
+      },
+      {
+        "id": "slot_004",
+        "startTime": "2025-05-24T13:00:00",
+        "endTime": "2025-05-24T14:30:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.8,
+    "reviewCount": 27,
+    "totalCompleted": 31,
+    "createdAt": "2025-01-15T00:00:00.000Z",
+    "updatedAt": "2025-04-28T00:00:00.000Z"
+  },
+  {
+    "id": "off_py_001",
+    "sellerName": "William Johnson",
+    "sellerUniversity": "University of Manchester",
+    "title": "Python Programming for Beginners",
+    "description": "Learn Python from scratch: variables, loops, functions, lists, dictionaries, and file handling. Build small projects during lessons.",
+    "category": "tutoring",
+    "price": 50,
+    "imageUrl": "/src/assets/offerList/3.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_005",
+        "startTime": "2025-05-23T16:00:00",
+        "endTime": "2025-05-23T17:30:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_006",
+        "startTime": "2025-05-25T11:00:00",
+        "endTime": "2025-05-25T12:30:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.9,
+    "reviewCount": 56,
+    "totalCompleted": 68,
+    "createdAt": "2024-11-01T00:00:00.000Z",
+    "updatedAt": "2025-05-05T00:00:00.000Z"
+  },
+  {
+    "id": "off_gfx_001",
+    "sellerName": "Sophie Martin",
+    "sellerUniversity": "Sorbonne Université",
+    "title": "Adobe Photoshop & Illustrator - Design Basics",
+    "description": "Learn photo editing, logo design, social media graphics, and vector illustration. Perfect for student projects and portfolios.",
+    "category": "graphics",
+    "price": 45,
+    "imageUrl": "/src/assets/offerList/4.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_007",
+        "startTime": "2025-05-21T15:00:00",
+        "endTime": "2025-05-21T16:30:00",
+        "isBooked": true
+      },
+      {
+        "id": "slot_008",
+        "startTime": "2025-05-24T10:00:00",
+        "endTime": "2025-05-24T11:30:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.7,
+    "reviewCount": 23,
+    "totalCompleted": 29,
+    "createdAt": "2025-02-10T00:00:00.000Z",
+    "updatedAt": "2025-04-30T00:00:00.000Z"
+  },
+  {
+    "id": "off_vid_001",
+    "sellerName": "Thomas Brown",
+    "sellerUniversity": "University of Edinburgh",
+    "title": "Video Editing in DaVinci Resolve & Premiere Pro",
+    "description": "Learn cutting, transitions, color grading, audio synchronization, and exporting. Create YouTube videos, short films, or vlogs.",
+    "category": "other",
+    "price": 60,
+    "imageUrl": "/src/assets/offerList/5.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_009",
+        "startTime": "2025-05-22T17:00:00",
+        "endTime": "2025-05-22T19:00:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_010",
+        "startTime": "2025-05-26T14:00:00",
+        "endTime": "2025-05-26T16:00:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 5.0,
+    "reviewCount": 18,
+    "totalCompleted": 22,
+    "createdAt": "2025-01-20T00:00:00.000Z",
+    "updatedAt": "2025-05-02T00:00:00.000Z"
+  },
+  {
+    "id": "off_bio_001",
+    "sellerName": "Isabella Ferreira",
+    "sellerUniversity": "Universidade de Lisboa",
+    "title": "Molecular Biology & Genetics",
+    "description": "DNA replication, transcription, translation, PCR, gel electrophoresis, and Mendelian genetics. Preparation for exams and lab work.",
+    "category": "tutoring",
+    "price": 30,
+    "imageUrl": "/src/assets/offerList/6.png",
+    "mode": "both",
+    "location": {
+      "address": "Faculty of Biology, room 8",
+      "city": "Lisbon"
+    },
+    "slots": [
+      {
+        "id": "slot_011",
+        "startTime": "2025-05-23T10:00:00",
+        "endTime": "2025-05-23T11:30:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_012",
+        "startTime": "2025-05-25T15:00:00",
+        "endTime": "2025-05-25T16:30:00",
+        "isBooked": true
+      }
+    ],
+    "status": "active",
+    "rating": 4.8,
+    "reviewCount": 15,
+    "totalCompleted": 19,
+    "createdAt": "2025-03-01T00:00:00.000Z",
+    "updatedAt": "2025-05-04T00:00:00.000Z"
+  },
+  {
+    "id": "off_art_001",
+    "sellerName": "Emma Wilson",
+    "sellerUniversity": "University of Oxford",
+    "title": "Art History - From Renaissance to Modernism",
+    "description": "Explore key movements: Renaissance, Baroque, Romanticism, Impressionism, Cubism, and Surrealism. Learn to analyze paintings and architecture.",
+    "category": "tutoring",
+    "price": 35,
+    "imageUrl": "/src/assets/offerList/8.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_013",
+        "startTime": "2025-05-24T16:00:00",
+        "endTime": "2025-05-24T17:30:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_014",
+        "startTime": "2025-05-26T18:00:00",
+        "endTime": "2025-05-26T19:30:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.9,
+    "reviewCount": 11,
+    "totalCompleted": 14,
+    "createdAt": "2025-02-15T00:00:00.000Z",
+    "updatedAt": "2025-04-25T00:00:00.000Z"
+  },
+  {
+    "id": "off_mgt_001",
+    "sellerName": "Pierre Dubois",
+    "sellerUniversity": "HEC Paris",
+    "title": "Project Management & Agile Methodologies",
+    "description": "Learn Scrum, Kanban, Gantt charts, risk management, team leadership, and stakeholder communication. Practical examples from real projects.",
+    "category": "other",
+    "price": 55,
+    "imageUrl": "/src/assets/offerList/9.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_015",
+        "startTime": "2025-05-21T12:00:00",
+        "endTime": "2025-05-21T13:30:00",
+        "isBooked": true
+      },
+      {
+        "id": "slot_016",
+        "startTime": "2025-05-23T14:00:00",
+        "endTime": "2025-05-23T15:30:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 4.6,
+    "reviewCount": 9,
+    "totalCompleted": 12,
+    "createdAt": "2025-03-10T00:00:00.000Z",
+    "updatedAt": "2025-05-03T00:00:00.000Z"
+  },
+  {
+    "id": "off_mind_001",
+    "sellerName": "Clara Rodrigues",
+    "sellerUniversity": "Universidade de Coimbra",
+    "title": "Mindfulness & Stress Management for Students",
+    "description": "Learn meditation techniques, breathing exercises, and stress reduction methods. Perfect for exam periods and daily student life.",
+    "category": "other",
+    "price": 25,
+    "imageUrl": "/src/assets/offerList/10.png",
+    "mode": "online",
+    "slots": [
+      {
+        "id": "slot_mind_001",
+        "startTime": "2025-05-25T09:00:00",
+        "endTime": "2025-05-25T10:00:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_mind_002",
+        "startTime": "2025-05-27T16:00:00",
+        "endTime": "2025-05-27T17:00:00",
+        "isBooked": false
+      },
+      {
+        "id": "slot_mind_003",
+        "startTime": "2025-05-29T11:00:00",
+        "endTime": "2025-05-29T12:00:00",
+        "isBooked": false
+      }
+    ],
+    "status": "active",
+    "rating": 5.0,
+    "reviewCount": 8,
+    "totalCompleted": 12,
+    "createdAt": "2025-04-10T00:00:00.000Z",
+    "updatedAt": "2025-05-10T00:00:00.000Z"
   }
 ]
