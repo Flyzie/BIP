@@ -120,7 +120,7 @@ function FilterContent({
             <SelectItem value="tutoring">📚 Tutoring</SelectItem>
             <SelectItem value="graphics">🎨 Graphics</SelectItem>
             <SelectItem value="presentations">📊 Presentations</SelectItem>
-            <SelectItem value="other"> Other</SelectItem>
+            <SelectItem value="other">✨ Other</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -147,7 +147,7 @@ function FilterContent({
 
       <div className="space-y-2">
         <h4 className="font-medium">
-           Price Range: €{priceRange[0]} - €{priceRange[1]}
+          💰 Price Range: €{priceRange[0]} - €{priceRange[1]}
         </h4>
         <Slider
           min={0}
@@ -160,7 +160,7 @@ function FilterContent({
       </div>
 
       <div className="space-y-2">
-        <h4 className="font-medium"> Minimum Rating: {minRating}+ ⭐</h4>
+        <h4 className="font-medium">⭐ Minimum Rating: {minRating}+ ⭐</h4>
         <Slider
           min={0}
           max={5}
@@ -296,15 +296,15 @@ function ListingsComponent() {
       case "presentations":
         return "📊"
       default:
-        return "✨"
+        return "🤝"
     }
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-background via-background to-muted/20">
       <div className="flex flex-1">
         {/* Desktop Sidebar - Fixed to left edge, below top bar */}
-        <aside className="fixed top-16 bottom-0 left-0 hidden w-80 shrink-0 overflow-y-auto border-r bg-background/50 p-6 backdrop-blur-sm lg:block">
+        <aside className="fixed top-16 bottom-0 left-0 hidden w-80 shrink-0 overflow-y-auto border-r bg-background/30 p-6 backdrop-blur-md lg:block">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Filters</h3>
@@ -334,7 +334,7 @@ function ListingsComponent() {
             <div className="mb-6 flex items-center justify-between">
               <div>
                 <h1 className="text-3xl font-bold tracking-tight">
-                   Active Offers
+                  Active Offers
                 </h1>
               </div>
 
@@ -392,10 +392,13 @@ function ListingsComponent() {
                   {filteredOffers.map((offer) => (
                     <Card
                       key={offer.id}
-                      className="group flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                      className="group relative flex flex-col overflow-hidden border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-black/20"
                     >
+                      {/* Glass overlay effect on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
                       {/* Image with overlay badges */}
-                      <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-primary/10 to-muted">
+                      <div className="relative aspect-video w-full overflow-hidden">
                         <img
                           src={offer.imageUrl}
                           alt={offer.title}
@@ -415,7 +418,7 @@ function ListingsComponent() {
                         </div>
                         {/* Price badge - top right */}
                         <div className="absolute top-3 right-3">
-                          <span className="rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground shadow-lg">
+                          <span className="rounded-full bg-primary/90 px-3 py-1 text-sm font-bold text-primary-foreground shadow-lg backdrop-blur-sm">
                             €{offer.price}
                           </span>
                         </div>
@@ -446,7 +449,7 @@ function ListingsComponent() {
                           {offer.description}
                         </p>
 
-                        {/* Seller info with avatar */}
+                        {/* Seller info */}
                         <div className="flex items-center gap-2 pt-1">
                           <div className="flex-1">
                             <p className="text-sm font-medium">
@@ -460,26 +463,26 @@ function ListingsComponent() {
                           </div>
                         </div>
 
-                        {/* Mode chips - no emojis */}
+                        {/* Mode chips */}
                         <div className="flex flex-wrap gap-2 pt-1">
-                          <span className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs">
+                          <span className="inline-flex items-center rounded-full bg-muted/50 px-2.5 py-0.5 text-xs backdrop-blur-sm">
                             {offer.mode === "online"
-                              ? "Online"
+                              ? "🌐 Online"
                               : offer.mode === "in_person"
-                                ? "In Person"
-                                : "Both"}
+                                ? "📍 In Person"
+                                : "🌐📍 Both"}
                           </span>
                           {offer.location && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-0.5 text-xs">
+                            <span className="inline-flex items-center gap-1 rounded-full bg-muted/50 px-2.5 py-0.5 text-xs backdrop-blur-sm">
                               📍 {offer.location.city}
                             </span>
                           )}
                         </div>
                       </CardContent>
 
-                      <CardFooter className="flex gap-2 border-t pt-4">
+                      <CardFooter className="flex gap-2 border-t border-white/10 pt-4">
                         <Button
-                          className="flex-1"
+                          className="flex-1 bg-primary/80 backdrop-blur-sm hover:bg-primary"
                           size="sm"
                           onClick={() => {
                             console.log("View details", offer.id)
@@ -496,7 +499,7 @@ function ListingsComponent() {
                           }}
                           variant="outline"
                           size="sm"
-                          className="flex-1"
+                          className="flex-1 border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10"
                         >
                           ✏️ Edit
                         </Button>

@@ -11,6 +11,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const Route = createRootRoute({
@@ -19,28 +26,59 @@ export const Route = createRootRoute({
 
 export default function RootComponent() {
   const [open, setOpen] = React.useState(false)
+  const [notificationsOpen, setNotificationsOpen] = React.useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
+  const [isDarkMode, setIsDarkMode] = React.useState(false)
+
+  // Sprawdź zapisany motyw lub preferencje systemowe
+  React.useEffect(() => {
+    const savedTheme = localStorage.getItem("theme")
+    const systemPrefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches
+
+    if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+      setIsDarkMode(true)
+      document.documentElement.classList.add("dark")
+    } else {
+      setIsDarkMode(false)
+      document.documentElement.classList.remove("dark")
+    }
+  }, [])
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+      setIsDarkMode(false)
+    } else {
+      document.documentElement.classList.add("dark")
+      localStorage.setItem("theme", "dark")
+      setIsDarkMode(true)
+    }
+  }
 
   return (
     <>
       <div className="fixed top-0 right-0 left-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center justify-between px-6 py-3">
+        <div className="flex items-center justify-between px-4 py-3 md:px-6">
           {/* Logo + nazwa - przyklejone do lewej krawędzi */}
           <Link
             to="/"
             className="flex items-center gap-2 transition-opacity hover:opacity-80"
           >
             <img
-              src="/src/assets/logo.png"
+              src="/src/assets/new-logo.png"
               alt="Swaply Logo"
-              className="h-8 w-8 rounded-lg object-cover"
+              className="h-8 w-8 rounded-lg object-cover md:h-10 md:w-10"
             />
-            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-xl font-bold text-transparent">
-              Swaply
+            <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-lg font-bold text-transparent md:text-xl">
+              UniLance
             </span>
           </Link>
 
-          {/* Nawigacja - wyśrodkowana */}
-          <div className="flex gap-8 text-sm font-medium">
+          {/* Desktop Navigation - hidden on mobile */}
+          <div className="hidden md:flex md:gap-6 md:text-sm md:font-medium lg:gap-8">
             <Link
               to="/"
               activeProps={{
@@ -72,20 +110,69 @@ export default function RootComponent() {
             </Link>
           </div>
 
-          {/* Avatar - przyklejony do prawej krawędzi */}
-          <div>
+          {/* Right side icons - theme toggle + bell + avatar + mobile menu button */}
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Theme Toggle Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              className="h-8 w-8 rounded-full hover:bg-muted md:h-9 md:w-9"
+            >
+              {isDarkMode ? (
+                <span className="text-lg md:text-xl">☀️</span>
+              ) : (
+                <span className="text-lg md:text-xl">🌙</span>
+              )}
+            </Button>
+
+            {/* Notifications dropdown */}
+            <DropdownMenu
+              open={notificationsOpen}
+              onOpenChange={setNotificationsOpen}
+            >
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative h-8 w-8 rounded-full hover:bg-muted md:h-9 md:w-9"
+                >
+                  <span className="text-lg md:text-xl">🔔</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-72 md:w-80"
+                align="end"
+                sideOffset={8}
+              >
+                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <div className="py-6 text-center text-sm text-muted-foreground">
+                  🔔 No new notifications
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => setNotificationsOpen(false)}
+                  className="cursor-pointer justify-center text-center text-xs text-muted-foreground"
+                >
+                  Mark all as read
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Profile dropdown */}
             <DropdownMenu open={open} onOpenChange={setOpen}>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-9 w-9 rounded-full p-0 hover:bg-muted"
+                  className="relative h-8 w-8 rounded-full p-0 hover:bg-muted md:h-9 md:w-9"
                 >
-                  <Avatar className="h-9 w-9 cursor-pointer">
+                  <Avatar className="h-8 w-8 cursor-pointer md:h-9 md:w-9">
                     <AvatarImage
                       src="/src/assets/profile.png"
                       alt="User avatar"
                     />
-                    <AvatarFallback className="bg-primary/10 text-primary">
+                    <AvatarFallback className="bg-primary/10 text-xs text-primary md:text-sm">
                       JD
                     </AvatarFallback>
                   </Avatar>
@@ -123,6 +210,58 @@ export default function RootComponent() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+
+            {/* Mobile Menu Button - visible only on mobile */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 md:hidden"
+                >
+                  <span className="text-xl">☰</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[280px] sm:w-[320px]">
+                <SheetHeader className="mb-6">
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-4">
+                  <Link
+                    to="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    activeProps={{
+                      className: "text-primary font-semibold",
+                    }}
+                    activeOptions={{ exact: true }}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-lg transition-colors hover:bg-muted"
+                  >
+                    🏠 Home
+                  </Link>
+                  <Link
+                    to="/listings"
+                    onClick={() => setMobileMenuOpen(false)}
+                    activeProps={{
+                      className: "text-primary font-semibold",
+                    }}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-lg transition-colors hover:bg-muted"
+                  >
+                    📋 Browse Offers
+                  </Link>
+                  <Link
+                    to="/createOffer"
+                    search={{ editId: undefined }}
+                    onClick={() => setMobileMenuOpen(false)}
+                    activeProps={{
+                      className: "text-primary font-semibold",
+                    }}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-lg transition-colors hover:bg-muted"
+                  >
+                    ✨ Create Offer
+                  </Link>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>

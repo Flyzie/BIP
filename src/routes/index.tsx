@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import * as React from "react"
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
@@ -20,15 +21,20 @@ function HomeComponent() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center">
             {/* Badge */}
+
             <div className="mb-6 inline-flex items-center rounded-full border bg-background/50 px-3 py-1 text-sm backdrop-blur-sm">
               <span className="mr-1">🚀</span>
               <span>Connect • Learn • Earn</span>
             </div>
-
+            <img
+              src="/src/assets/new-logo.png"
+              alt="Swaply Logo"
+              className="h-30 w-30 rounded-lg object-cover"
+            />
             {/* Title */}
             <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
               <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Swaply
+                UniLance
               </span>
             </h1>
 
@@ -62,11 +68,11 @@ function HomeComponent() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              Why choose <span className="text-primary">Swaply</span>?
+              Why choose <span className="text-primary">UniLance</span>?
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
-              Built by students, for students – Swaply makes skill exchange easy
-              and rewarding.
+              Built by students, for students – UniLance makes skill exchange
+              easy and rewarding.
             </p>
           </div>
 
@@ -151,7 +157,7 @@ function HomeComponent() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold md:text-4xl">
-              How <span className="text-primary">Swaply</span> Works
+              How <span className="text-primary">UniLance</span> Works
             </h2>
             <p className="mx-auto max-w-2xl text-muted-foreground">
               Three simple steps to start your journey
@@ -207,8 +213,8 @@ function HomeComponent() {
                 Ready to start?
               </h2>
               <p className="mb-8 max-w-2xl text-muted-foreground">
-                Join thousands of students already using Swaply to learn, teach,
-                and earn.
+                Join thousands of students already using UniLance to learn,
+                teach, and earn.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Button asChild size="lg">
