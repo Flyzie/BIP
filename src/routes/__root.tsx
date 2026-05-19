@@ -182,7 +182,7 @@ export default function RootComponent() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild onClick={() => setOpen(false)}>
-                  <Link to="/" className="cursor-pointer">
+                  <Link to="/login" className="cursor-pointer">
                     👤 Profile
                   </Link>
                 </DropdownMenuItem>

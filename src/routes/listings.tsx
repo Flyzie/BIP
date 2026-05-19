@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useEffect, useState, useMemo, useCallback } from "react"
+
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+
 import {
   Card,
   CardContent,
@@ -9,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
 import {
   Select,
   SelectContent,
@@ -16,7 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
 import { Slider } from "@/components/ui/slider"
+
 import {
   Sheet,
   SheetContent,
@@ -24,6 +29,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+
 import mockOffersData from "@/lib/offers.json"
 import { type Offer } from "@/lib/offers"
 
@@ -82,6 +96,7 @@ function FilterContent({
     <div className="space-y-6">
       <div className="space-y-2">
         <h4 className="font-medium">🔍 Search</h4>
+
         <Input
           placeholder="Search offers..."
           value={searchTerm}
@@ -91,6 +106,7 @@ function FilterContent({
 
       <div className="space-y-2">
         <h4 className="font-medium">🏛️ University</h4>
+
         <Select
           value={selectedUniversity}
           onValueChange={setSelectedUniversity}
@@ -98,8 +114,10 @@ function FilterContent({
           <SelectTrigger>
             <SelectValue placeholder="All Universities" />
           </SelectTrigger>
+
           <SelectContent>
             <SelectItem value="all">All Universities</SelectItem>
+
             {universities.map((uni) => (
               <SelectItem key={uni} value={uni}>
                 {uni}
@@ -111,10 +129,12 @@ function FilterContent({
 
       <div className="space-y-2">
         <h4 className="font-medium">📂 Category</h4>
+
         <Select value={selectedCategory} onValueChange={setSelectedCategory}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
+
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
             <SelectItem value="tutoring">📚 Tutoring</SelectItem>
@@ -127,6 +147,7 @@ function FilterContent({
 
       <div className="space-y-2">
         <h4 className="font-medium">Mode</h4>
+
         <div className="flex flex-wrap gap-2">
           {modes.map((mode) => (
             <Button
@@ -149,56 +170,36 @@ function FilterContent({
         <h4 className="font-medium">
           💰 Price Range: €{priceRange[0]} - €{priceRange[1]}
         </h4>
+
         <Slider
           min={0}
           max={200}
           step={5}
           value={priceRange}
           onValueChange={setPriceRange}
-          className="w-full"
         />
       </div>
 
       <div className="space-y-2">
-        <h4 className="font-medium">⭐ Minimum Rating: {minRating}+ ⭐</h4>
+        <h4 className="font-medium">
+          ⭐ Minimum Rating: {minRating}+
+        </h4>
+
         <Slider
           min={0}
           max={5}
           step={0.5}
           value={[minRating]}
           onValueChange={(val) => setMinRating(val[0])}
-          className="w-full"
         />
       </div>
 
-      <Button onClick={clearAllFilters} variant="outline" className="w-full">
+      <Button
+        onClick={clearAllFilters}
+        variant="outline"
+        className="w-full"
+      >
         Clear All Filters
-      </Button>
-    </div>
-  )
-}
-
-function MockPagination() {
-  return (
-    <div className="mt-8 flex items-center justify-center gap-2 border-t pt-4">
-      <Button variant="outline" size="sm" disabled>
-        Previous
-      </Button>
-      <Button variant="default" size="sm" className="h-8 w-8 p-0">
-        1
-      </Button>
-      <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-        2
-      </Button>
-      <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-        3
-      </Button>
-      <span className="text-sm text-muted-foreground">...</span>
-      <Button variant="outline" size="sm" className="h-8 w-8 p-0">
-        8
-      </Button>
-      <Button variant="outline" size="sm">
-        Next
       </Button>
     </div>
   )
@@ -206,31 +207,26 @@ function MockPagination() {
 
 function ListingsComponent() {
   const [offers, setOffers] = useState<Offer[]>([])
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null)
+
   const navigate = useNavigate()
 
-  // Load offers from localStorage or mock data
   useEffect(() => {
     const saved = localStorage.getItem("bip_offers")
+
     if (saved) {
-      const parsed = JSON.parse(saved)
-      console.log("Loaded from localStorage:", parsed.length, "offers")
-      setOffers(parsed)
+      setOffers(JSON.parse(saved))
     } else {
-      console.log(
-        "Loading from mock data:",
-        (mockOffersData as Offer[]).length,
-        "offers"
-      )
       setOffers(mockOffersData as Offer[])
     }
   }, [])
 
-  const [searchTerm, setSearchTerm] = useState<string>("")
-  const [selectedCategory, setSelectedCategory] = useState<string>("all")
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
   const [selectedModes, setSelectedModes] = useState<string[]>([])
-  const [priceRange, setPriceRange] = useState<number[]>([0, 200])
-  const [selectedUniversity, setSelectedUniversity] = useState<string>("all")
-  const [minRating, setMinRating] = useState<number>(0)
+  const [priceRange, setPriceRange] = useState([0, 200])
+  const [selectedUniversity, setSelectedUniversity] = useState("all")
+  const [minRating, setMinRating] = useState(0)
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false)
 
   const universities = useMemo(() => {
@@ -246,14 +242,21 @@ function ListingsComponent() {
         offer.description.toLowerCase().includes(searchTerm.toLowerCase())
 
       const matchesCategory =
-        selectedCategory === "all" || offer.category === selectedCategory
+        selectedCategory === "all" ||
+        offer.category === selectedCategory
+
       const matchesMode =
-        selectedModes.length === 0 || selectedModes.includes(offer.mode)
+        selectedModes.length === 0 ||
+        selectedModes.includes(offer.mode)
+
       const matchesPrice =
-        offer.price >= priceRange[0] && offer.price <= priceRange[1]
+        offer.price >= priceRange[0] &&
+        offer.price <= priceRange[1]
+
       const matchesUniversity =
         selectedUniversity === "all" ||
         offer.sellerUniversity === selectedUniversity
+
       const matchesRating = offer.rating >= minRating
 
       return (
@@ -284,9 +287,6 @@ function ListingsComponent() {
     setMinRating(0)
   }, [])
 
-  console.log("Total offers:", offers.length)
-  console.log("Filtered offers:", filteredOffers.length)
-
   const getCategoryEmoji = (category: string) => {
     switch (category) {
       case "tutoring":
@@ -296,224 +296,374 @@ function ListingsComponent() {
       case "presentations":
         return "📊"
       default:
-        return "🤝"
+        return "✨"
     }
   }
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-background via-background to-muted/20">
       <div className="flex flex-1">
-        {/* Desktop Sidebar - Fixed to left edge, below top bar */}
-        <aside className="fixed top-16 bottom-0 left-0 hidden w-80 shrink-0 overflow-y-auto border-r bg-background/30 p-6 backdrop-blur-md lg:block">
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Filters</h3>
-            </div>
-            <FilterContent
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-              selectedModes={selectedModes}
-              setSelectedModes={setSelectedModes}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              selectedUniversity={selectedUniversity}
-              setSelectedUniversity={setSelectedUniversity}
-              minRating={minRating}
-              setMinRating={setMinRating}
-              universities={universities}
-              clearAllFilters={clearAllFilters}
-            />
-          </div>
+
+        {/* Desktop Sidebar */}
+        <aside className="fixed top-16 bottom-0 left-0 hidden w-80 overflow-y-auto border-r bg-background/30 p-6 backdrop-blur-md lg:block">
+          <FilterContent
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            selectedModes={selectedModes}
+            setSelectedModes={setSelectedModes}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            selectedUniversity={selectedUniversity}
+            setSelectedUniversity={setSelectedUniversity}
+            minRating={minRating}
+            setMinRating={setMinRating}
+            universities={universities}
+            clearAllFilters={clearAllFilters}
+          />
         </aside>
 
-        {/* Main Content - With left margin to account for fixed sidebar */}
+        {/* Main Content */}
         <main className="flex-1 p-4 md:p-6 lg:ml-80">
           <div className="mx-auto max-w-7xl">
+
+            {/* Header */}
             <div className="mb-6 flex items-center justify-between">
+
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">
+                <h1 className="text-3xl font-bold">
                   Active Offers
                 </h1>
+
+                <p className="text-sm text-muted-foreground">
+                  {filteredOffers.length} offers found
+                </p>
               </div>
 
-              {/* Mobile Filter Button */}
+              {/* Mobile Filter */}
               <Sheet
                 open={isMobileFilterOpen}
                 onOpenChange={setIsMobileFilterOpen}
               >
                 <SheetTrigger asChild>
-                  <Button variant="outline" size="sm" className="lg:hidden">
-                    <span className="mr-2">🔍</span>
+                  <Button
+                    variant="outline"
+                    className="lg:hidden"
+                  >
                     Filters
                   </Button>
                 </SheetTrigger>
-                <SheetContent
-                  side="left"
-                  className="w-[300px] overflow-y-auto sm:w-[350px]"
-                >
-                  <SheetHeader className="mb-4">
+
+                <SheetContent side="left">
+                  <SheetHeader>
                     <SheetTitle>Filters</SheetTitle>
                   </SheetHeader>
-                  <FilterContent
-                    searchTerm={searchTerm}
-                    setSearchTerm={setSearchTerm}
-                    selectedCategory={selectedCategory}
-                    setSelectedCategory={setSelectedCategory}
-                    selectedModes={selectedModes}
-                    setSelectedModes={setSelectedModes}
-                    priceRange={priceRange}
-                    setPriceRange={setPriceRange}
-                    selectedUniversity={selectedUniversity}
-                    setSelectedUniversity={setSelectedUniversity}
-                    minRating={minRating}
-                    setMinRating={setMinRating}
-                    universities={universities}
-                    clearAllFilters={clearAllFilters}
-                  />
+
+                  <div className="mt-6">
+                    <FilterContent
+                      searchTerm={searchTerm}
+                      setSearchTerm={setSearchTerm}
+                      selectedCategory={selectedCategory}
+                      setSelectedCategory={setSelectedCategory}
+                      selectedModes={selectedModes}
+                      setSelectedModes={setSelectedModes}
+                      priceRange={priceRange}
+                      setPriceRange={setPriceRange}
+                      selectedUniversity={selectedUniversity}
+                      setSelectedUniversity={setSelectedUniversity}
+                      minRating={minRating}
+                      setMinRating={setMinRating}
+                      universities={universities}
+                      clearAllFilters={clearAllFilters}
+                    />
+                  </div>
                 </SheetContent>
               </Sheet>
             </div>
 
-            <p className="mb-4 text-sm text-muted-foreground">
-              Found {filteredOffers.length} offer
-              {filteredOffers.length !== 1 ? "s" : ""}
-            </p>
+            {/* Cards */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
 
-            {filteredOffers.length === 0 ? (
-              <div className="py-12 text-center">
-                <p className="text-lg">No offers found</p>
-                <p className="text-sm">Try adjusting your search or filters</p>
-              </div>
-            ) : (
-              <>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {filteredOffers.map((offer) => (
-                    <Card
-                      key={offer.id}
-                      className="group relative flex flex-col overflow-hidden border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-black/20"
+              {filteredOffers.map((offer) => (
+                <Card
+                  key={offer.id}
+                  className="group overflow-hidden border border-white/20 bg-white/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-black/20"
+                >
+
+                  {/* Image */}
+                  <div className="relative aspect-video overflow-hidden">
+
+                    <img
+                      src={offer.imageUrl}
+                      alt={offer.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+
+                    <div className="absolute top-3 left-3">
+                      <span className="rounded-full bg-black/60 px-3 py-1 text-xs text-white backdrop-blur-md">
+                        {getCategoryEmoji(offer.category)} {offer.category}
+                      </span>
+                    </div>
+
+                    <div className="absolute top-3 right-3 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">
+                      €{offer.price}
+                    </div>
+                  </div>
+
+                  <CardHeader>
+                    <CardTitle className="line-clamp-1">
+                      {offer.title}
+                    </CardTitle>
+
+                    <div className="flex items-center gap-2 text-sm">
+                      <span>⭐ {offer.rating}</span>
+
+                      <span className="text-muted-foreground">
+                        ({offer.reviewCount} reviews)
+                      </span>
+                    </div>
+                  </CardHeader>
+
+                  <CardContent className="space-y-3">
+
+                    <p className="line-clamp-2 text-sm text-muted-foreground">
+                      {offer.description}
+                    </p>
+
+                    <div>
+                      <p className="font-medium">
+                        {offer.sellerName}
+                      </p>
+
+                      <p className="text-sm text-muted-foreground">
+                        {offer.sellerUniversity}
+                      </p>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2">
+
+                      <span className="rounded-full bg-muted px-3 py-1 text-xs">
+                        {offer.mode}
+                      </span>
+
+                      {offer.location && (
+                        <span className="rounded-full bg-muted px-3 py-1 text-xs">
+                          📍 {offer.location.city}
+                        </span>
+                      )}
+                    </div>
+                  </CardContent>
+
+                  <CardFooter className="flex gap-2">
+
+                    <Button
+                      className="flex-1"
+                      onClick={() => setSelectedOffer(offer)}
                     >
-                      {/* Glass overlay effect on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-white/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      View Details
+                    </Button>
 
-                      {/* Image with overlay badges */}
-                      <div className="relative aspect-video w-full overflow-hidden">
-                        <img
-                          src={offer.imageUrl}
-                          alt={offer.title}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                          onError={(
-                            e: React.SyntheticEvent<HTMLImageElement>
-                          ) => {
-                            e.currentTarget.src =
-                              "https://placehold.co/800x600?text=📷+No+Image"
-                          }}
-                        />
-                        {/* Category badge - top left */}
-                        <div className="absolute top-3 left-3">
-                          <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
-                            {getCategoryEmoji(offer.category)} {offer.category}
-                          </span>
-                        </div>
-                        {/* Price badge - top right */}
-                        <div className="absolute top-3 right-3">
-                          <span className="rounded-full bg-primary/90 px-3 py-1 text-sm font-bold text-primary-foreground shadow-lg backdrop-blur-sm">
-                            €{offer.price}
-                          </span>
-                        </div>
-                      </div>
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => {
+                        navigate({
+                          to: "/createOffer",
+                          search: { editId: offer.id },
+                        })
+                      }}
+                    >
+                      Edit
+                    </Button>
 
-                      <CardHeader className="pb-2">
-                        <CardTitle className="line-clamp-1 text-xl transition-colors group-hover:text-primary">
-                          {offer.title}
-                        </CardTitle>
-                        {/* Rating row */}
-                        <div className="mt-1 flex items-center gap-1">
-                          <span className="text-yellow-500">⭐</span>
-                          <span className="text-sm font-medium">
-                            {offer.rating}
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            ({offer.reviewCount} reviews)
-                          </span>
-                          <span className="mx-1 text-muted-foreground">•</span>
-                          <span className="text-xs text-muted-foreground">
-                            👥 {offer.totalCompleted} students
-                          </span>
-                        </div>
-                      </CardHeader>
-
-                      <CardContent className="flex-1 space-y-3 pb-2">
-                        <p className="line-clamp-2 text-sm text-muted-foreground">
-                          {offer.description}
-                        </p>
-
-                        {/* Seller info */}
-                        <div className="flex items-center gap-2 pt-1">
-                          <div className="flex-1">
-                            <p className="text-sm font-medium">
-                              {offer.sellerName}
-                            </p>
-                            <div className="flex items-center gap-1">
-                              <p className="text-xs text-muted-foreground">
-                                {offer.sellerUniversity}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Mode chips */}
-                        <div className="flex flex-wrap gap-2 pt-1">
-                          <span className="inline-flex items-center rounded-full bg-muted/50 px-2.5 py-0.5 text-xs backdrop-blur-sm">
-                            {offer.mode === "online"
-                              ? "🌐 Online"
-                              : offer.mode === "in_person"
-                                ? "📍 In Person"
-                                : "🌐📍 Both"}
-                          </span>
-                          {offer.location && (
-                            <span className="inline-flex items-center gap-1 rounded-full bg-muted/50 px-2.5 py-0.5 text-xs backdrop-blur-sm">
-                              📍 {offer.location.city}
-                            </span>
-                          )}
-                        </div>
-                      </CardContent>
-
-                      <CardFooter className="flex gap-2 border-t border-white/10 pt-4">
-                        <Button
-                          className="flex-1 bg-primary/80 backdrop-blur-sm hover:bg-primary"
-                          size="sm"
-                          onClick={() => {
-                            console.log("View details", offer.id)
-                          }}
-                        >
-                          View Details
-                        </Button>
-                        <Button
-                          onClick={() => {
-                            navigate({
-                              to: "/createOffer",
-                              search: { editId: offer.id },
-                            })
-                          }}
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 border-white/20 bg-white/5 backdrop-blur-sm hover:bg-white/10"
-                        >
-                          ✏️ Edit
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
-
-                <MockPagination />
-              </>
-            )}
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
           </div>
         </main>
       </div>
+
+      {/* DETAILS DIALOG - POPRAWIONY - SZEROKI BEZ OGRANICZEŃ */}
+      <Dialog
+        open={!!selectedOffer}
+        onOpenChange={() => setSelectedOffer(null)}
+      >
+        <DialogContent 
+          className="!max-w-none w-[98vw] h-[95vh] p-0 border border-white/10 bg-background/95 backdrop-blur-2xl overflow-hidden"
+          style={{ maxWidth: '98vw' }}
+        >
+          {selectedOffer && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
+
+              {/* LEWA STRONA - ZDJĘCIE */}
+              <div className="relative h-[40vh] lg:h-full">
+                <img
+                  src={selectedOffer.imageUrl}
+                  alt={selectedOffer.title}
+                  className="h-full w-full object-cover"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent lg:hidden" />
+
+                <div className="absolute top-5 left-5 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-black/50 px-4 py-1.5 text-sm text-white backdrop-blur-md">
+                    {getCategoryEmoji(selectedOffer.category)} {selectedOffer.category}
+                  </span>
+
+                  <span className="rounded-full bg-emerald-500/90 px-4 py-1.5 text-sm text-white">
+                    {selectedOffer.status}
+                  </span>
+                </div>
+
+                <div className="absolute right-5 bottom-5 rounded-2xl bg-primary px-6 py-3 text-3xl font-bold text-primary-foreground shadow-2xl">
+                  €{selectedOffer.price}
+                </div>
+              </div>
+
+              {/* PRAWA STRONA - WSZYSTKIE DANE - SCROLL TYLKO TUTAJ */}
+              <div className="overflow-y-auto p-6 md:p-8 lg:p-10">
+                
+                {/* Tytuł i opis */}
+                <div className="space-y-4">
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+                    {selectedOffer.title}
+                  </h2>
+
+                  <p className="text-base leading-7 text-muted-foreground">
+                    {selectedOffer.description}
+                  </p>
+                </div>
+
+                {/* Seller */}
+                <div className="mt-8 rounded-2xl border bg-muted/30 p-5">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                    <div>
+                      <h3 className="text-lg font-semibold">
+                        {selectedOffer.sellerName}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {selectedOffer.sellerUniversity}
+                      </p>
+                    </div>
+
+                    <div>
+                      <div className="text-lg font-bold">
+                        ⭐ {selectedOffer.rating}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {selectedOffer.reviewCount} reviews
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Statystyki */}
+                <div className="mt-6 grid grid-cols-2 gap-4">
+                  <div className="rounded-2xl border bg-muted/20 p-4">
+                    <div className="text-sm text-muted-foreground">
+                      Completed
+                    </div>
+                    <div className="mt-1 text-2xl font-bold">
+                      {selectedOffer.totalCompleted}
+                    </div>
+                  </div>
+
+                  <div className="rounded-2xl border bg-muted/20 p-4">
+                    <div className="text-sm text-muted-foreground">
+                      Mode
+                    </div>
+                    <div className="mt-1 text-2xl font-bold capitalize">
+                      {selectedOffer.mode.replace("_", " ")}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Location */}
+                {selectedOffer.location && (
+                  <div className="mt-6 rounded-2xl border bg-muted/20 p-5">
+                    <h3 className="mb-3 text-lg font-semibold">
+                      📍 Location
+                    </h3>
+                    <p className="font-medium">
+                      {selectedOffer.location.city}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {selectedOffer.location.address}
+                    </p>
+                  </div>
+                )}
+
+                {/* Sloty */}
+                <div className="mt-6 rounded-2xl border bg-muted/20 p-5">
+                  <div className="mb-4 flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">
+                      📅 Available Slots
+                    </h3>
+                    <span className="text-sm text-muted-foreground">
+                      {selectedOffer.slots.length} sessions
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+                    {selectedOffer.slots.map((slot) => (
+                      <div
+                        key={slot.id}
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border bg-background/50 p-4"
+                      >
+                        <div>
+                          <p className="font-medium">
+                            {new Date(slot.startTime).toLocaleDateString()}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {new Date(slot.startTime).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                            {" - "}
+                            {new Date(slot.endTime).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </p>
+                        </div>
+
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-medium w-fit ${
+                            slot.isBooked
+                              ? "bg-red-500/10 text-red-500"
+                              : "bg-emerald-500/10 text-emerald-500"
+                          }`}
+                        >
+                          {slot.isBooked ? "Booked" : "Available"}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Przyciski */}
+                <div className="mt-8 flex flex-col gap-3 border-t pt-6 sm:flex-row">
+                  <Button size="lg" className="flex-1">
+                    Contact Seller
+                  </Button>
+                  <Button size="lg" variant="outline" className="flex-1">
+                    Save Offer
+                  </Button>
+                </div>
+
+                {/* Data */}
+                <div className="mt-6 text-center text-sm text-muted-foreground pb-2">
+                  Created {new Date(selectedOffer.createdAt).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
+
+export default ListingsComponent
