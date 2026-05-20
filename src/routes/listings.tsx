@@ -41,6 +41,14 @@ import {
 import mockOffersData from "@/lib/offers.json"
 import { type Offer } from "@/lib/offers"
 
+function MapsLocation(address:any, city:any)
+{
+  let string = "https://maps.google.com/?q="
+  string += (address ? address + "+" : "")
+  string += city
+  location.href = string.replace(" ", "+")
+}
+
 export const Route = createFileRoute("/listings")({
   component: ListingsComponent,
 })
@@ -452,6 +460,7 @@ function ListingsComponent() {
                           📍 {offer.location.city}
                         </span>
                       )}
+                      
                     </div>
                   </CardContent>
 
@@ -592,6 +601,10 @@ function ListingsComponent() {
                     <p className="text-sm text-muted-foreground">
                       {selectedOffer.location.address}
                     </p>
+
+                    <Button formTarget="__blank" onClick={() => MapsLocation(selectedOffer.location?.address, selectedOffer.location?.city)}>
+                      Go to Google Maps
+                    </Button>
                   </div>
                 )}
 
