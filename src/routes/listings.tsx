@@ -41,12 +41,11 @@ import {
 import mockOffersData from "@/lib/offers.json"
 import { type Offer } from "@/lib/offers"
 
-function MapsLocation(address:any, city:any)
-{
+function MapsLocation(address: any, uni: any) {
   let string = "https://maps.google.com/?q="
   string += (address ? address + "+" : "")
-  string += city
-  location.href = string.replace(" ", "+")
+  string += uni
+  window.open(string.replace(" ", "+"))
 }
 
 export const Route = createFileRoute("/listings")({
@@ -494,142 +493,178 @@ function ListingsComponent() {
         </main>
       </div>
 
-      {/* DETAILS DIALOG - POPRAWIONY - SZEROKI BEZ OGRANICZEŃ */}
+      {/* RESPONSIVE DETAIL DIALOG - FULLY OPTIMIZED FOR MOBILE */}
       <Dialog
         open={!!selectedOffer}
         onOpenChange={() => setSelectedOffer(null)}
       >
         <DialogContent 
-          className="!max-w-none w-[98vw] h-[95vh] p-0 border border-white/10 bg-background/95 backdrop-blur-2xl overflow-hidden"
-          style={{ maxWidth: '98vw' }}
+          className="!max-w-none w-[95vw] h-[90vh] md:w-[98vw] md:h-[95vh] p-0 border border-white/10 bg-background/95 backdrop-blur-2xl overflow-hidden rounded-lg md:rounded-xl"
+          style={{ maxWidth: '95vw', maxHeight: '90vh' }}
         >
           {selectedOffer && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
-
-              {/* LEWA STRONA - ZDJĘCIE */}
-              <div className="relative h-[40vh] lg:h-full">
+            <div className="flex flex-col h-full overflow-hidden">
+              
+              {/* Mobile Header with Image Preview */}
+              <div className="relative lg:hidden">
+                <img
+                  src={selectedOffer.imageUrl}
+                  alt={selectedOffer.title}
+                  className="h-56 w-full object-cover"
+                />
+                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                
+                <div className="absolute top-4 left-4 flex flex-wrap gap-2">
+                  <span className="rounded-full bg-black/60 px-3 py-1 text-xs text-white backdrop-blur-md">
+                    {getCategoryEmoji(selectedOffer.category)} {selectedOffer.category}
+                  </span>
+                  
+                  <span className="rounded-full bg-emerald-500/90 px-3 py-1 text-xs text-white">
+                    {selectedOffer.status}
+                  </span>
+                </div>
+                
+                <div className="absolute right-4 bottom-4 rounded-xl bg-primary px-4 py-2 text-xl font-bold text-primary-foreground shadow-lg">
+                  €{selectedOffer.price}
+                </div>
+                
+                <button
+                  onClick={() => setSelectedOffer(null)}
+                  className="absolute top-4 right-4 rounded-full bg-black/60 p-2 text-white backdrop-blur-md"
+                >
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              {/* Desktop Image - Hidden on Mobile */}
+              <div className="hidden lg:block lg:absolute lg:inset-0 lg:w-1/2">
                 <img
                   src={selectedOffer.imageUrl}
                   alt={selectedOffer.title}
                   className="h-full w-full object-cover"
                 />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent lg:hidden" />
-
+                
                 <div className="absolute top-5 left-5 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-black/50 px-4 py-1.5 text-sm text-white backdrop-blur-md">
+                  <span className="rounded-full bg-black/60 px-4 py-1.5 text-sm text-white backdrop-blur-md">
                     {getCategoryEmoji(selectedOffer.category)} {selectedOffer.category}
                   </span>
-
+                  
                   <span className="rounded-full bg-emerald-500/90 px-4 py-1.5 text-sm text-white">
                     {selectedOffer.status}
                   </span>
                 </div>
-
+                
                 <div className="absolute right-5 bottom-5 rounded-2xl bg-primary px-6 py-3 text-3xl font-bold text-primary-foreground shadow-2xl">
                   €{selectedOffer.price}
                 </div>
               </div>
-
-              {/* PRAWA STRONA - WSZYSTKIE DANE - SCROLL TYLKO TUTAJ */}
-              <div className="overflow-y-auto p-6 md:p-8 lg:p-10">
+              
+              {/* Scrollable Content Area - Mobile Optimized */}
+              <div className="flex-1 overflow-y-scroll p-4 md:p-6 lg:absolute lg:right-0 lg:top-0 lg:w-1/2 lg:p-8">
                 
-                {/* Tytuł i opis */}
-                <div className="space-y-4">
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+                {/* Title & Description */}
+                <div className="space-y-3 lg:space-y-4">
+                  <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
                     {selectedOffer.title}
                   </h2>
-
-                  <p className="text-base leading-7 text-muted-foreground">
+                  
+                  <p className="text-sm md:text-base leading-relaxed text-muted-foreground">
                     {selectedOffer.description}
                   </p>
                 </div>
-
-                {/* Seller */}
-                <div className="mt-8 rounded-2xl border bg-muted/30 p-5">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                
+                {/* Seller Info */}
+                <div className="mt-6 rounded-xl border bg-muted/30 p-4 md:p-5">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                     <div>
-                      <h3 className="text-lg font-semibold">
+                      <h3 className="text-base md:text-lg font-semibold">
                         {selectedOffer.sellerName}
                       </h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-xs md:text-sm text-muted-foreground">
                         {selectedOffer.sellerUniversity}
                       </p>
                     </div>
-
+                    
                     <div>
-                      <div className="text-lg font-bold">
+                      <div className="text-base md:text-lg font-bold">
                         ⭐ {selectedOffer.rating}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-xs md:text-sm text-muted-foreground">
                         {selectedOffer.reviewCount} reviews
                       </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Statystyki */}
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="rounded-2xl border bg-muted/20 p-4">
-                    <div className="text-sm text-muted-foreground">
+                
+                {/* Stats Grid */}
+                <div className="mt-4 md:mt-6 grid grid-cols-2 gap-3 md:gap-4">
+                  <div className="rounded-xl border bg-muted/20 p-3 md:p-4">
+                    <div className="text-xs md:text-sm text-muted-foreground">
                       Completed
                     </div>
-                    <div className="mt-1 text-2xl font-bold">
+                    <div className="mt-1 text-lg md:text-2xl font-bold">
                       {selectedOffer.totalCompleted}
                     </div>
                   </div>
-
-                  <div className="rounded-2xl border bg-muted/20 p-4">
-                    <div className="text-sm text-muted-foreground">
-                      Mode
+                  
+                  <div className="rounded-xl border bg-muted/20 p-3 md:p-4">
+                    <div className="text-xs md:text-sm text-muted-foreground">
+                      Mode (In Person/Online)
                     </div>
-                    <div className="mt-1 text-2xl font-bold capitalize">
+                    <div className="mt-1 text-base md:text-xl font-bold capitalize">
                       {selectedOffer.mode.replace("_", " ")}
                     </div>
                   </div>
                 </div>
-
+                
                 {/* Location */}
                 {selectedOffer.location && (
-                  <div className="mt-6 rounded-2xl border bg-muted/20 p-5">
-                    <h3 className="mb-3 text-lg font-semibold">
+                  <div className="mt-4 md:mt-6 rounded-xl border bg-muted/20 p-4 md:p-5">
+                    <h3 className="mb-2 md:mb-3 text-base md:text-lg font-semibold">
                       📍 Location
                     </h3>
-                    <p className="font-medium">
+                    <p className="text-sm md:text-base font-medium">
                       {selectedOffer.location.city}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs md:text-sm text-muted-foreground">
                       {selectedOffer.location.address}
                     </p>
-
-                    <Button formTarget="__blank" onClick={() => MapsLocation(selectedOffer.location?.address, selectedOffer.location?.city)}>
-                      Go to Google Maps
+                    
+                    <Button 
+                      size="sm" 
+                      className="mt-3 w-full sm:w-auto"
+                      onClick={() => MapsLocation(selectedOffer.location?.address, selectedOffer.sellerUniversity)}
+                    >
+                      Open in Google Maps
                     </Button>
                   </div>
                 )}
-
-                {/* Sloty */}
-                <div className="mt-6 rounded-2xl border bg-muted/20 p-5">
-                  <div className="mb-4 flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">
+                
+                {/* Available Slots */}
+                <div className="mt-4 md:mt-6 rounded-xl border bg-muted/20 p-4 md:p-5">
+                  <div className="mb-3 md:mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                    <h3 className="text-base md:text-lg font-semibold">
                       📅 Available Slots
                     </h3>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs md:text-sm text-muted-foreground">
                       {selectedOffer.slots.length} sessions
                     </span>
                   </div>
-
-                  <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+                  
+                  <div className="space-y-2 max-h-[200px] md:max-h-[280px] overflow-y-auto pr-1">
                     {selectedOffer.slots.map((slot) => (
                       <div
                         key={slot.id}
-                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border bg-background/50 p-4"
+                        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 rounded-lg border bg-background/50 p-3 md:p-4"
                       >
                         <div>
-                          <p className="font-medium">
+                          <p className="text-sm md:text-base font-medium">
                             {new Date(slot.startTime).toLocaleDateString()}
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-xs md:text-sm text-muted-foreground">
                             {new Date(slot.startTime).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -641,9 +676,9 @@ function ListingsComponent() {
                             })}
                           </p>
                         </div>
-
+                        
                         <span
-                          className={`rounded-full px-3 py-1 text-xs font-medium w-fit ${
+                          className={`rounded-full px-2 md:px-3 py-1 text-xs font-medium w-fit ${
                             slot.isBooked
                               ? "bg-red-500/10 text-red-500"
                               : "bg-emerald-500/10 text-emerald-500"
@@ -655,19 +690,19 @@ function ListingsComponent() {
                     ))}
                   </div>
                 </div>
-
-                {/* Przyciski */}
-                <div className="mt-8 flex flex-col gap-3 border-t pt-6 sm:flex-row">
-                  <Button size="lg" className="flex-1">
+                
+                {/* Action Buttons */}
+                <div className="mt-6 md:mt-8 flex flex-col gap-2 md:gap-3 border-t pt-4 md:pt-6 sm:flex-row">
+                  <Button size="default" className="flex-1">
                     Contact Seller
                   </Button>
-                  <Button size="lg" variant="outline" className="flex-1">
+                  <Button size="default" variant="outline" className="flex-1">
                     Save Offer
                   </Button>
                 </div>
-
-                {/* Data */}
-                <div className="mt-6 text-center text-sm text-muted-foreground pb-2">
+                
+                {/* Creation Date */}
+                <div className="mt-4 md:mt-6 text-center text-xs md:text-sm text-muted-foreground pb-2">
                   Created {new Date(selectedOffer.createdAt).toLocaleDateString()}
                 </div>
               </div>
